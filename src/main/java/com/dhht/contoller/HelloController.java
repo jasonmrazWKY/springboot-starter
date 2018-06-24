@@ -14,7 +14,8 @@ public class HelloController {
 	
 	@Autowired
 	private Resource resource;
-
+ 
+	
 	@RequestMapping("hello")
 	public Object hello() {
 		return "hello springboot 123";
