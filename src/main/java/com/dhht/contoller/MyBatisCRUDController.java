@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dhht.pojo.IMoocJSONResult;
 import com.dhht.pojo.SysUser;
+import com.dhht.pojo.User;
 import com.dhht.service.UserService;
 
 @RestController
@@ -37,14 +38,12 @@ public class MyBatisCRUDController {
 	}
 	
 	@RequestMapping("/updateUser")
-	public IMoocJSONResult updateUser() {
-		
-		SysUser user = new SysUser();
-		user.setId("180704HMXCMZGT2W");
-		//user.setName("张三");
-		user.setAge(144);
+	public IMoocJSONResult updateUser(SysUser sysUser) {
+		//SysUser user =  userService.queryUserById(sysUser.getId());
+		SysUser user =  userService.queryUserByIdCustom(sysUser.getId());
+        System.out.println(user.getName());
+        user.setAge(sysUser.getAge());
 		userService.updateUser(user);
-		
 		return IMoocJSONResult.ok("保存成功");
 	}
 	
@@ -100,7 +99,6 @@ public class MyBatisCRUDController {
 		
 		SysUser user = new SysUser();
 		user.setId(userId);
-		
 		userService.saveUserTransactional(user);
 		
 		return IMoocJSONResult.ok("保存成功");

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.util.StringUtils;
 
 import com.dhht.mapper.SysUserMapper;
+import com.dhht.mapper.SysUserMapperCustom;
 import com.dhht.pojo.SysUser;
 import com.dhht.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -19,6 +20,9 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private SysUserMapper userMapper;
+	
+	@Autowired
+	private SysUserMapperCustom userMapperCustom;
 	
 //	@Autowired
 //	private SysUserMapperCustom userMapperCustom;
@@ -38,8 +42,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional(propagation = Propagation.REQUIRED)
 	public void updateUser(SysUser user) {
-	    userMapper.updateByPrimaryKeySelective(user);
-		//userMapper.updateByPrimaryKey(user);
+	    //userMapper.updateByPrimaryKeySelective(user);
+		userMapper.updateByPrimaryKey(user);
 	}
 
 	@Override
@@ -107,39 +111,27 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional(propagation = Propagation.SUPPORTS)
 	public SysUser queryUserByIdCustom(String userId) {
-		// TODO Auto-generated method stub
+		
+		List<SysUser> userList = userMapperCustom.queryUserSimplyInfoById(userId);
+		
+		if (userList != null && !userList.isEmpty()) {
+			return (SysUser)userList.get(0);
+		}
+		
 		return null;
 	}
-
-	@Override
-	public void saveUserTransactional(SysUser user) {
-		// TODO Auto-generated method stub
-		
-	}
 	
-//	@Override
-//	@Transactional(propagation = Propagation.SUPPORTS)
-//	public SysUser queryUserByIdCustom(String userId) {
-//		
-//		List<SysUser> userList = userMapperCustom.queryUserSimplyInfoById(userId);
-//		
-//		if (userList != null && !userList.isEmpty()) {
-//			return (SysUser)userList.get(0);
-//		}
-//		
-//		return null;
-//	}
-//	
-//	@Override
-//	@Transactional(propagation = Propagation.REQUIRED)
-//	public void saveUserTransactional(SysUser user) {
-//		
-//		userMapper.insert(user);
-//		
-//		int a = 1 / 0;
-//		
-//		user.setIsDelete(1);
-//		userMapper.updateByPrimaryKeySelective(user);
-//	}
+	@Override
+	@Transactional(propagation = Propagation.REQUIRED)
+	public void saveUserTransactional(SysUser user) {
+		
+		userMapper.insert(user);
+		
+		int a = 1 / 0;
+		
+		user.setAge(1234);
+		userMapper.updateByPrimaryKeySelective(user);
+	}
 }

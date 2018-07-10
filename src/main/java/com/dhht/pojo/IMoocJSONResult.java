@@ -22,8 +22,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * Company:Nathan.Lee.Salvatore
  * 
  * @author leechenxiang
- * @date 2016年4月22日 下午8:33:36
- * @version V1.0
  */
 public class IMoocJSONResult {
 
@@ -125,8 +123,6 @@ public class IMoocJSONResult {
      * @param clazz
      * @return
      * 
-     * @author leechenxiang
-     * @date 2016年4月22日 下午8:34:58
      */
     public static IMoocJSONResult formatToPojo(String jsonData, Class<?> clazz) {
         try {
